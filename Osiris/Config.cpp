@@ -647,8 +647,8 @@ static void from_json(const json& j, Config::Visuals::MolotovPolygon& mp)
     read<value_t::object>(j, "Self", mp.self);
     read<value_t::object>(j, "Team", mp.team);
     read<value_t::object>(j, "Enemy", mp.enemy);
-
 }
+
     static void from_json(const json& j, Config::Visuals::OnHitHitbox& h)
 {
     read<value_t::object>(j, "Color", h.color);

@@ -56,7 +56,7 @@ Config::Config() noexcept
         CoTaskMemFree(pathToDocuments);
     }
 
-    path /= "Osiris";
+    path /= "BSK";
     listConfigs();
     misc.clanTag[0] = '\0';
     misc.name[0] = '\0';
@@ -647,9 +647,9 @@ static void from_json(const json& j, Config::Visuals::MolotovPolygon& mp)
     read<value_t::object>(j, "Self", mp.self);
     read<value_t::object>(j, "Team", mp.team);
     read<value_t::object>(j, "Enemy", mp.enemy);
-}
 
-static void from_json(const json& j, Config::Visuals::OnHitHitbox& h)
+}
+    static void from_json(const json& j, Config::Visuals::OnHitHitbox& h)
 {
     read<value_t::object>(j, "Color", h.color);
     read(j, "Duration", h.duration);
@@ -1148,7 +1148,7 @@ static void to_json(json& j, const PurchaseList& o, const PurchaseList& dummy = 
     WRITE("No Title Bar", noTitleBar);
     WRITE("Mode", mode);
 
-    if (const auto window = ImGui::FindWindowByName("Purchases")) {
+    if (const auto window = ImGui::FindWindowByName("购买")) {
         j["Pos"] = window->Pos;
     }
 }
@@ -1158,7 +1158,7 @@ static void to_json(json& j, const Config::Misc::SpectatorList& o, const Config:
     WRITE("Enabled", enabled);
     WRITE("No Title Bar", noTitleBar);
 
-    if (const auto window = ImGui::FindWindowByName("Spectator list")) {
+    if (const auto window = ImGui::FindWindowByName("观战者列表")) {
         j["Pos"] = window->Pos;
     }
 }
@@ -1168,7 +1168,7 @@ static void to_json(json& j, const Config::Misc::KeyBindList& o, const Config::M
     WRITE("Enabled", enabled);
     WRITE("No Title Bar", noTitleBar);
 
-    if (const auto window = ImGui::FindWindowByName("Keybind list")) {
+    if (const auto window = ImGui::FindWindowByName("密钥绑定列表")) {
         j["Pos"] = window->Pos;
     }
 }
@@ -1183,7 +1183,7 @@ static void to_json(json& j, const Config::Misc::PlayerList& o, const Config::Mi
     WRITE("Health", health);
     WRITE("Armor", armor);
 
-    if (const auto window = ImGui::FindWindowByName("Player List")) {
+    if (const auto window = ImGui::FindWindowByName("玩家列表")) {
         j["Pos"] = window->Pos;
     }
 }

@@ -79,7 +79,7 @@ private:
                 return foundInterface;
         }
 
-        MessageBoxA(nullptr, ("Failed to find " + std::string{ name } + " interface!").c_str(), "Osiris", MB_OK | MB_ICONERROR);
+        MessageBoxA(nullptr, ("找不到" + std::string{ name } + " 界面!").c_str(), "BSK", MB_OK | MB_ICONERROR);
         std::exit(EXIT_FAILURE);
     }
 };

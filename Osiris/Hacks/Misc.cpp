@@ -345,12 +345,12 @@ public:
             //Certain characters are censured on printf
             if (jumps > 2)
                 memory->clientMode->getHudChat()->printf(0,
-                    " \x0C\u2022Osiris\u2022\x01 %c%s: %.2f units \x01[\x05%d\x01 Strafes | \x05%.0f\x01 Pre | \x05%.0f\x01 Max | \x05%.1f\x01 Height | \x05%d\x01 Bhops | \x05%.0f\x01 Sync]",
+                    " \x0C\u2022BSK\u2022\x01 %c%s: %.2f 单位 \x01[\x05%d\x01 连跳次数 | \x05%.0f\x01 开始速度 | \x05%.0f\x01 最快速度 | \x05%.1f\x01 高度 | \x05%d\x01 组 | \x05%.0f\x01 同步]",
                     color, jump.c_str(),
                     jumpStatsCalculations.units, jumpStatsCalculations.strafes, jumpStatsCalculations.pre, jumpStatsCalculations.maxVelocity, jumpStatsCalculations.maxHeight, jumpStatsCalculations.jumps, jumpStatsCalculations.sync);
             else
                 memory->clientMode->getHudChat()->printf(0,
-                    " \x0C\u2022Osiris\u2022\x01 %c%s: %.2f units \x01[\x05%d\x01 Strafes | \x05%.0f\x01 Pre | \x05%.0f\x01 Max | \x05%.1f\x01 Height | \x05%.0f\x01 Sync]",
+                    " \x0C\u2022BSK\u2022\x01 %c%s: %.2f 单位 \x01[\x05%d\x01 连跳次数 | \x05%.0f\x01 开始速度 | \x05%.0f\x01 最快速度 | \x05%.1f\x01 高度 | \x05%.0f\x01 同步]",
                     color, jump.c_str(),
                     jumpStatsCalculations.units, jumpStatsCalculations.strafes, jumpStatsCalculations.pre, jumpStatsCalculations.maxVelocity, jumpStatsCalculations.maxHeight, jumpStatsCalculations.sync);
         }
@@ -793,17 +793,17 @@ void Misc::drawPlayerList() noexcept
 
     ImGui::SetNextWindowSize(ImVec2(300.0f, 300.0f), ImGuiCond_Once);
 
-    if (ImGui::Begin("Player List", nullptr, windowFlags)) {
+    if (ImGui::Begin("玩家列表", nullptr, windowFlags)) {
         if (ImGui::beginTable("", 9, ImGuiTableFlags_Borders | ImGuiTableFlags_Hideable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_Resizable)) {
-            ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHide);
-            ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHide, 120.0f);
+            ImGui::TableSetupColumn("指数", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHide);
+            ImGui::TableSetupColumn("名称", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHide, 120.0f);
             ImGui::TableSetupColumn("Steam ID", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Rank", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Wins", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Health", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Armor", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Money", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
-            ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("段位", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("胜场", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("生命值", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("护甲", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("金钱", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
+            ImGui::TableSetupColumn("盗用", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoResize);
             ImGui::TableSetupScrollFreeze(0, 1);
             ImGui::TableSetColumnEnabled(2, config->misc.playerList.steamID);
             ImGui::TableSetColumnEnabled(3, config->misc.playerList.rank);
@@ -859,7 +859,7 @@ void Misc::drawPlayerList() noexcept
 
                 if (ImGui::TableNextColumn()) {
                     if (!player.alive)
-                        ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", "Dead");
+                        ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", "死亡");
                     else
                         ImGui::Text("%d HP", player.health);
                 }
@@ -875,7 +875,7 @@ void Misc::drawPlayerList() noexcept
                         ImGui::OpenPopup("");
 
                     if (ImGui::BeginPopup("")) {
-                        if (ImGui::Button("Steal name"))
+                        if (ImGui::Button("盗用名字"))
                         {
                             changedName = changeName(false, (std::string{ player.name } + '\x1').c_str(), 1.0f);
                             nameToChange = player.name;
@@ -885,7 +885,7 @@ void Misc::drawPlayerList() noexcept
                                 changedName = false;
                         }
 
-                        if (ImGui::Button("Steal clantag"))
+                        if (ImGui::Button("盗用组名"))
                             memory->setClanTag(player.clanTag.c_str(), player.clanTag.c_str());
 
                         if (GameData::local().exists && player.team == GameData::local().team && player.steamID != 0)
@@ -1481,7 +1481,7 @@ void Misc::showKeybinds() noexcept
         windowFlags |= ImGuiWindowFlags_NoTitleBar;
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, { 0.5f, 0.5f });
-    ImGui::Begin("Keybind list", nullptr, windowFlags);
+    ImGui::Begin("密钥绑定名单", nullptr, windowFlags);
     ImGui::PopStyleVar();
 
     config->ragebotKey.showKeybind();
@@ -1569,7 +1569,7 @@ void Misc::spectatorList() noexcept
         windowFlags |= ImGuiWindowFlags_NoTitleBar;
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, { 0.5f, 0.5f });
-    ImGui::Begin("Spectator list", nullptr, windowFlags);
+    ImGui::Begin("观战者名单", nullptr, windowFlags);
     ImGui::PopStyleVar();
 
     for (const auto& observer : observers) {
@@ -1659,12 +1659,12 @@ void Misc::watermark() noexcept
         windowFlags |= ImGuiWindowFlags_NoInputs;
 
     ImGui::SetNextWindowBgAlpha(0.3f);
-    ImGui::Begin("Watermark", nullptr, windowFlags);
+    ImGui::Begin("显示延迟", nullptr, windowFlags);
 
     static auto frameRate = 1.0f;
     frameRate = 0.9f * frameRate + 0.1f * memory->globalVars->absoluteFrameTime;
 
-    ImGui::Text("Osiris | %d fps | %d ms", frameRate != 0.0f ? static_cast<int>(1 / frameRate) : 0, GameData::getNetOutgoingLatency());
+    ImGui::Text("BSK | %d fps | %d ms", frameRate != 0.0f ? static_cast<int>(1 / frameRate) : 0, GameData::getNetOutgoingLatency());
     ImGui::End();
 }
 
@@ -1771,9 +1771,9 @@ void Misc::drawBombTimer() noexcept
         ImGui::SetNextWindowSize({ windowWidth, 0 });
 
     ImGui::SetNextWindowSizeConstraints({ 0, -1 }, { FLT_MAX, -1 });
-    ImGui::Begin("Bomb Timer", nullptr, ImGuiWindowFlags_NoTitleBar | (gui->isOpen() ? 0 : ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration));
+    ImGui::Begin("炸弹计时器", nullptr, ImGuiWindowFlags_NoTitleBar | (gui->isOpen() ? 0 : ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration));
 
-    std::ostringstream ss; ss << "Bomb on " << (!plantedC4.bombsite ? 'A' : 'B') << " : " << std::fixed << std::showpoint << std::setprecision(3) << (std::max)(plantedC4.blowTime - memory->globalVars->currenttime, 0.0f) << " s";
+    std::ostringstream ss; ss << "安放在 " << (!plantedC4.bombsite ? 'A' : 'B') << " : " << std::fixed << std::showpoint << std::setprecision(3) << (std::max)(plantedC4.blowTime - memory->globalVars->currenttime, 0.0f) << " s";
 
     ImGui::textUnformattedCentered(ss.str().c_str());
 
@@ -1787,14 +1787,14 @@ void Misc::drawBombTimer() noexcept
         if (plantedC4.defuserHandle == GameData::local().handle) {
             if (canDefuse) {
                 ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
-                ImGui::textUnformattedCentered("You can defuse!");
+                ImGui::textUnformattedCentered("你可以拆包!");
             } else {
                 ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
-                ImGui::textUnformattedCentered("You can not defuse!");
+                ImGui::textUnformattedCentered("你不可以拆包!");
             }
             ImGui::PopStyleColor();
         } else if (const auto defusingPlayer = GameData::playerByHandle(plantedC4.defuserHandle)) {
-            std::ostringstream ss; ss << defusingPlayer->name << " is defusing: " << std::fixed << std::showpoint << std::setprecision(3) << (std::max)(plantedC4.defuseCountDown - memory->globalVars->currenttime, 0.0f) << " s";
+            std::ostringstream ss; ss << defusingPlayer->name << " 正在拆包: " << std::fixed << std::showpoint << std::setprecision(3) << (std::max)(plantedC4.defuseCountDown - memory->globalVars->currenttime, 0.0f) << " s";
 
             ImGui::textUnformattedCentered(ss.str().c_str());
 
@@ -1835,9 +1835,9 @@ void Misc::hurtIndicator() noexcept
         ImGui::SetNextWindowSize({ windowWidth, 0 });
 
     ImGui::SetNextWindowSizeConstraints({ 0, -1 }, { FLT_MAX, -1 });
-    ImGui::Begin("Hurt Indicator", nullptr, ImGuiWindowFlags_NoTitleBar | (gui->isOpen() ? 0 : ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration));
+    ImGui::Begin("伤害指示器", nullptr, ImGuiWindowFlags_NoTitleBar | (gui->isOpen() ? 0 : ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoDecoration));
 
-    std::ostringstream ss; ss << "Slowed down " << static_cast<int>(local.velocityModifier * 100.f) << "%";
+    std::ostringstream ss; ss << "减速 " << static_cast<int>(local.velocityModifier * 100.f) << "%";
     ImGui::textUnformattedCentered(ss.str().c_str());
 
     ImGui::PushStyleColor(ImGuiCol_PlotHistogram, Helpers::calculateColor(config->misc.hurtIndicator));
@@ -2323,7 +2323,7 @@ void Misc::purchaseList(GameEvent* event) noexcept
             windowFlags |= ImGuiWindowFlags_NoTitleBar;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, { 0.5f, 0.5f });
-        ImGui::Begin("Purchases", nullptr, windowFlags);
+        ImGui::Begin("购买", nullptr, windowFlags);
         ImGui::PopStyleVar();
 
         if (config->misc.purchaseList.mode == PurchaseList::Details) {
@@ -2354,7 +2354,7 @@ void Misc::purchaseList(GameEvent* event) noexcept
 
             if (config->misc.purchaseList.showPrices && totalCost > 0) {
                 ImGui::Separator();
-                ImGui::TextWrapped("Total: $%d", totalCost);
+                ImGui::TextWrapped("总共: $%d", totalCost);
             }
         }
         ImGui::End();
@@ -2501,7 +2501,7 @@ void Misc::voteRevealer(GameEvent& event) noexcept
     const auto isLocal = localPlayer && entity == localPlayer.get();
     const char color = votedYes ? '\x06' : '\x07';
 
-    memory->clientMode->getHudChat()->printf(0, " \x0C\u2022Osiris\u2022 %c%s\x01 voted %c%s\x01", isLocal ? '\x01' : color, isLocal ? "You" : entity->getPlayerName().c_str(), color, votedYes ? "Yes" : "No");
+    memory->clientMode->getHudChat()->printf(0, " \x0C\u2022BSK\u2022 %c%s\x01 voted %c%s\x01", isLocal ? '\x01' : color, isLocal ? "你" : entity->getPlayerName().c_str(), color, votedYes ? "是" : "否");
 }
 
 // ImGui::ShadeVertsLinearColorGradientKeepAlpha() modified to do interpolation in HSV

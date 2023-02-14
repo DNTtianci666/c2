@@ -1200,7 +1200,6 @@ void GUI::renderStreamProofESPWindow() noexcept
             }
 
             ImGui::PopID();
-
             ImGuiCustom::colorPicker("脚步声", config->visuals.footsteps.footstepBeams);
             ImGui::SliderInt("幅度", &config->visuals.footsteps.footstepBeamThickness, 0, 30, "幅度: %d%%");
             ImGui::SliderInt("半径", &config->visuals.footsteps.footstepBeamRadius, 0, 230, "半径: %d%%");

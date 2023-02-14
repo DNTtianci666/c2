@@ -56,16 +56,16 @@ void Sound::drawGUI() noexcept
     ImGui::Columns(2, nullptr, false);
     ImGui::SetColumnOffset(1, 300.f);
     ImGui::PushID("Sound");
-    ImGui::SliderInt("Chicken volume", &soundConfig.chickenVolume, 0, 200, "%d%%");
+    ImGui::SliderInt("鸡鸡音效", &soundConfig.chickenVolume, 0, 200, "%d%%");
 
     static int currentCategory{ 0 };
     ImGui::PushItemWidth(110.0f);
-    ImGui::Combo("", &currentCategory, "Local player\0Allies\0Enemies\0");
+    ImGui::Combo("", &currentCategory, "本地玩家\0队友\0敌人\0");
     ImGui::PopItemWidth();
-    ImGui::SliderInt("Master volume", &soundConfig.players[currentCategory].masterVolume, 0, 200, "%d%%");
-    ImGui::SliderInt("Headshot volume", &soundConfig.players[currentCategory].headshotVolume, 0, 200, "%d%%");
-    ImGui::SliderInt("Weapon volume", &soundConfig.players[currentCategory].weaponVolume, 0, 200, "%d%%");
-    ImGui::SliderInt("Footstep volume", &soundConfig.players[currentCategory].footstepVolume, 0, 200, "%d%%");
+    ImGui::SliderInt("全局音量", &soundConfig.players[currentCategory].masterVolume, 0, 200, "%d%%");
+    ImGui::SliderInt("爆头音量", &soundConfig.players[currentCategory].headshotVolume, 0, 200, "%d%%");
+    ImGui::SliderInt("武器音量", &soundConfig.players[currentCategory].weaponVolume, 0, 200, "%d%%");
+    ImGui::SliderInt("脚步音量", &soundConfig.players[currentCategory].footstepVolume, 0, 200, "%d%%");
     ImGui::PopID();
     ImGui::NextColumn();
     ImGui::Columns(1);
